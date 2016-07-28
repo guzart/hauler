@@ -4,13 +4,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'spiral/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'spiral'
+  spec.name          = 'spiral-rails'
   spec.version       = Spiral::VERSION
   spec.authors       = ['Arturo Guzman']
   spec.email         = ['arturo@guzart.com']
 
-  spec.summary       = 'Railtie to use spiral as an asset manager'
-  spec.description   = 'Railtie to use spiral as an asset manager'
+  spec.summary       = 'Railtie to use webpack as an asset manager'
+  spec.description   = <<-TXT
+Railtie to generate the files needed to use webpack as a replacement of sprockets
+TXT
   spec.homepage      = 'https://github.com/guzart/rails_webpack_app/tree/master/vendor/spiral'
   spec.license       = 'MIT'
 
@@ -22,7 +24,9 @@ Gem::Specification.new do |spec|
     raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.'
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features)/})
+  end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
