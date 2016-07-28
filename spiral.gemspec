@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = <<-TXT
 Railtie to generate the files needed to use webpack as a replacement of sprockets
 TXT
-  spec.homepage      = 'https://github.com/guzart/rails_webpack_app/tree/master/vendor/spiral'
+  spec.homepage      = 'https://github.com/guzart/spiral-rails'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
