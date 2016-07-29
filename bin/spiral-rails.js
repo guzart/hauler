@@ -3,16 +3,17 @@
 
 // https://github.com/webpack/webpack-dev-server/blob/v2.1.0-beta.0/bin/webpack-dev-server.js
 
+const fs = require('fs');
 const merge = require('ramda/src/merge');
 const path = require('path');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
+const isDev = process.env.NODE_ENV !== 'production' && process.env.RAILS_ENV !== 'production';
 const railsRoot = process.cwd();
 const railsPath = (...args) => path.join(railsRoot, ...args);
 const spiralConfig = require(railsPath('config/spiral.js'));
 
-const fs = require('fs');
 function getEntriesAt(targetPath) {
   const filePaths = fs.readdirSync(targetPath).map(fn => path.join(targetPath, fn));
   const dirs = filePaths.filter(fp => fs.statSync(fp).isDirectory());
@@ -25,6 +26,38 @@ function getEntriesAt(targetPath) {
     },
     {}
   );
+}
+
+function resolveEntries(entries) {
+  if (!entries) {
+    return null;
+  }
+
+  if (typeof entries === 'string') {
+    return railsPath(entries);
+  }
+
+  if (Array.isArray(entries)) {
+    return entries.map(entry => resolveEntries(entry));
+  }
+
+  return Object.keys(entries).reduce(
+    (memo, key) => {
+      memo[key] = resolveEntries(entries[key]);
+      return memo;
+    },
+    {}
+  );
+}
+
+function getAppWebpackConfig(config) {
+  if (!config) {
+    return {};
+  }
+
+  return Object.assign(config, {
+    entry: resolveEntries(config.entry),
+  });
 }
 
 const devServerConfig = merge({
@@ -46,26 +79,43 @@ const devServerConfig = merge({
 }, spiralConfig.devServer || {});
 
 const webpackConfig = merge({
-  context: railsPath('app/assets'),
+  context: railsRoot,
   entry: getEntriesAt(railsPath('app/assets')),
-  output: {
-    filename: '[name].[chunkhash].js',
-    path: railsPath('public/assets'),
-    publicPath: '/',
-    chunkFilename: '[name].[chunkhash].chunk.js',
-  },
+  output: (function getOutput() {
+    if (isDev) {
+      return {
+        filename: '[name].js',
+        chunkFilename: '[name].chunk.js'
+      };
+    }
+
+    return {
+      filename: '[name].[chunkhash].js',
+      path: railsPath('public/assets'),
+      publicPath: '/',
+      chunkFilename: '[name].[chunkhash].chunk.js',
+    };
+  }()),
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
+        // query: {
+        //   presets: ['es2015-webpack', 'react', 'stage-2'],
+        //   plugins: [],
+        // },
       },
-      {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        loader: 'style!css!sass',
-      },
+      (function getCssLoader() {
+        const spec = { test: /\.scss$/, exclude: /node_modules/, loader: 'style!css!sass' };
+        if (isDev) {
+          const cssQuery = 'localIdentName=[local]__[path][name]__[hash:base64:5]&modules&importLoaders=1&sourceMap';
+          spec.loader = `style!css?${cssQuery}!sass?sourceMap`;
+        }
+
+        return spec;
+      }()),
       {
         test: /\.css$/,
         include: /node_modules/,
@@ -90,21 +140,29 @@ const webpackConfig = merge({
       railsPath('lib/assets'),
     ],
   },
-  plugins: [
-
-  ],
-  devtool: '',
+  plugins: (function getPlugins() {
+    const plugins = [];
+    plugins.push(new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      children: true,
+      minChunks: 2,
+      async: true,
+    }));
+    plugins.push(new webpack.NoErrorsPlugin());
+    return plugins;
+  }()),
+  devtool: isDev ? 'cheap-module-eval-source-map' : undefined,
   target: 'web',
   // stats: false,
   progress: true,
-}, spiralConfig.webpack);
+}, getAppWebpackConfig(spiralConfig.webpack));
 
 console.log(webpackConfig);
 
-// const compiler = webpack(webpackConfig);
-// const devServer = new WebpackDevServer(compiler, devServerConfig);
-// devServer.listen(devServerConfig.port, devServerConfig.host, (err) => {
-//   if (err) {
-//     throw err;
-//   }
-// });
+const compiler = webpack(webpackConfig);
+const devServer = new WebpackDevServer(compiler, devServerConfig);
+devServer.listen(devServerConfig.port, devServerConfig.host, (err) => {
+  if (err) {
+    throw err;
+  }
+});

@@ -18,7 +18,7 @@ module Spiral
         eslint-import-resolver-webpack
         eslint-plugin-import
         eslint-plugin-jsx-a11y
-        extract-text-webpack-plugin
+        extract-text-webpack-plugin@2.0.0-beta.3
         file-loader
         image-webpack-loader
         immutable-devtools
