@@ -1,28 +1,28 @@
 # Spiral
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/spiral`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+TODO: Describe your gem
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'spiral'
+gem 'spiral-rails', require: 'spiral'
 ```
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+bin/rails generate spiral:install
+```
 
 Or install it yourself as:
 
-    $ gem install spiral
+    $ gem install spiral-rails
 
 ## Usage
 
-TODO: Write usage instructions here
 
 ## Development
 
@@ -32,9 +32,16 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/spiral.
+Bug reports and pull requests are welcome on GitHub at https://github.com/guzart/spiral.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+# TODO
+
+* add "start" script that runs the spiral-rails.js binary
+* install React dynamically, install if present or ask otherwise
+* install Sass dynamically, install if present or ask otherwise
+* add sensible defaults to the config template
