@@ -1,0 +1,19 @@
+{
+  "name": "spiral-rails",
+  "version": "0.1.0",
+  "description": "NodeJS binary for the spiral-rails gem",
+  "autor": "Arturo Guzman @guzart",
+  "main": "index.js",
+  "bin": "bin/spiral.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ramda": "^0.21.0"
+  }
+}
