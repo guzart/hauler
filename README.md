@@ -45,3 +45,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 * install React dynamically, install if present or ask otherwise
 * install Sass dynamically, install if present or ask otherwise
 * add sensible defaults to the config template
+* should be able to append loaders or override them
