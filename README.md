@@ -1,6 +1,51 @@
 # Spiral
 
-TODO: Describe your gem
+Replaces the default Rails asset management (Sprockets) with the superior Webpack.
+
+Improve your DX (Developer Experience) by developing your application UI using
+JavaScript Components.
+
+1. [Setup](#setup)  
+  1. [New Rails Application](#new-rails-application)  
+  1. [Existing Rails Application](#existing-rails-applications)
+1. [Installation](#installation)
+1. [Update](#update)
+1. [Usage](#usage)
+
+## Preparation
+
+### New Rails Application
+
+Create your new application skipping all javascript assets and sprockets (where "*my_app*" refers to your app name).
+
+```bash
+rails new my_app --skip-javascript --skip-turbolinks --skip-sprockets
+```
+
+### Existing Rails Applications
+
+Remove sprockets from your application loaded modules inside the `config/application.rb` file.
+
+If you used the default Rails generator, then replace the line `require 'rails/all'` with:
+
+```ruby
+require 'rails'
+# Pick the frameworks you want:
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+# require 'sprockets/railtie'
+require 'rails/test_unit/railtie'
+```
+
+If you used a custom Rails app generation, just remove the line:
+
+```bash
+require 'sprockets/railtie'
+```
 
 ## Installation
 
@@ -15,13 +60,39 @@ And then execute:
 ```bash
 bundle
 bin/rails generate spiral:install
+bin/rails generate spiral:setup
 ```
 
-Or install it yourself as:
+Set your application `config.action_controller.asset_host` using an environment variable.
 
-    $ gem install spiral-rails
+```bash
+export ASSET_HOST="//localhost:8080"
+```
+
+```ruby
+# config/application.rb
+config.action_controller.asset_host = ENV.fetch('ASSET_HOST')
+```
+
+## Update
+
+```bash
+bin/rails generate spiral:setup
+```
 
 ## Usage
+
+Run your rails server normally:
+
+```bash
+bin/rails server
+```
+
+In a different terminal window run Webpack dev server:
+
+```bash
+npm start
+```
 
 
 ## Development
