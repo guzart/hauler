@@ -10,4 +10,5 @@
 /tmp/
 
 /Gemfile.lock
+/npm-debug.log
 /*.gem
