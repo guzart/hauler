@@ -1,121 +1,120 @@
+// @flow
 // NOTE: This code is executed in a Gem, which makes any npm package unavailable
 
-const railsRoot = process.cwd();
+const compilerDefaultsFactory = require('./defaults/compiler_config_factory');
+const devServerDefaultsFactory = require('./defaults/dev_server_config_factory');
+const utils = require('./utils');
 
-function railsPath(value) {
-  if (Array.isArray(value)) {
-    return value.map((item) => railsPath(item));
-  }
-
-  if (value instanceof Object) {
-    const output = {};
-    Object.keys(value).forEach((key) => {
-      output[key] = railsPath(value[key]);
-    });
-    return output;
-  }
-
-  return [railsRoot, value].join('/');
+function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
+  return utils.compact([
+    config.javascriptLoader,
+    config.sassLoader,
+    config.fontLoader,
+    config.imageLoader,
+  ]);
 }
 
-function merge(...hashes) {
-  const output = {};
-  hashes.filter(v => !!v).forEach((hash) => {
-    Object.keys(hash).forEach((key) => {
-      output[key] = hash[key];
-    });
+function extractResolve(config: ProjectConfig): WebpackResolveConfig {
+  const resolve = config.compiler && config.compiler.resolve;
+  const root = resolve && resolve.root || '';
+  return utils.deepMerge(resolve, { root: utils.railsPath(root) });
+}
+
+function extractPlugins(config: ProjectConfig): Array<WebpackPlugin> {
+  const prepend = config.prependPlugins || [];
+  const plugins = config.plugins || [];
+  const appendPlugins = config.appendPlugins || [];
+  return prepend.concat(plugins).concat(appendPlugins);
+}
+
+function extractModule(config: ProjectConfig): WebpackModuleConfig {
+  const module = config.compiler && config.compiler.module;
+  return utils.deepMerge(module, {
+    loaders: extractLoaders(config),
   });
-  return output;
 }
 
-function deepMergeValues(a, b) {
-  if (a instanceof Object && b instanceof Object) {
-    const output = a;
-    Object.keys(b).forEach((key) => {
-      output[key] = deepMergeValues(a[key], b[key]);
-    });
-
-    return output;
-  }
-
-  return b;
-}
-
-function deepMerge(...hashes) {
-  const output = {};
-  hashes.filter(v => !!v).forEach((hash) => {
-    Object.keys(hash).forEach((key) => {
-      const currentValue = output[key];
-      const value = hash[key];
-      if (currentValue === undefined) {
-        output[key] = value;
-        return;
-      }
-
-      output[key] = deepMergeValues(currentValue, value);
-    });
+function extractOutput(config: ProjectConfig): WebpackOutputConfig {
+  const output = config.compiler && config.compiler.output || {};
+  const path = output.path || '';
+  return utils.deepMerge(output, {
+    path: utils.railsPath(path),
   });
-  return output;
 }
 
-// function omit(keys, hash) {
-//   const output = {};
-//   Object.keys(hash).forEach((key) => {
-//     if (keys.indexOf(key) === -1) {
-//       output[key] = hash[key];
-//     }
-//   });
-//   return output;
-// }
-
-function extractLoaders(loaders) {
-  return [
-    loaders.javascriptLoader,
-    loaders.sassLoader,
-    loaders.fontLoader,
-    loaders.imageLoader,
-  ].filter(v => !!v);
-}
-
-function extractPlugins(plugins) {
-  return plugins.prependPlugins.concat(plugins.plugins).concat(plugins.appendPlugins);
-}
-
-function formatCompilerConfig(config) {
+function parseToCompilerConfig(config: ProjectConfig): WebpackConfig {
   return {
-    entry: railsPath(config.entries),
-    output: deepMerge(config.compiler.output, {
-      path: railsPath(config.compiler.output.path),
-      // TODO: needs bulletproof parsing
-      // TODO: get the url from configuration
-      publicPath: `http://localhost:30001/${config.compiler.output.publicPath}`,
-    }),
-    module: deepMerge(config.compiler.module, {
-      loaders: extractLoaders(config.loaders),
-    }),
-    plugins: extractPlugins(config.plugins),
-    resolve: deepMerge(config.compiler.resolve, {
-      root: railsPath(config.compiler.resolve.root),
-    }),
+    entry: utils.railsPath(config.entries),
+    output: extractOutput(config),
+    module: extractModule(config),
+    plugins: extractPlugins(config),
+    resolve: extractResolve(config),
   };
 }
 
-const projectConfig = require(railsPath('config/spiral.js'));
+function extractPublicPath(config: WebpackDevServerConfig): string {
+  const publicPath = config.publicPath;
+  if (publicPath == null) {
+    return '';
+  }
 
-module.exports = {
-  webpackDevServerConfigFactory(defaultsFactory) {
-    return (env) => {
-      const projectDevServerConfig = projectConfig.devServer || {};
-      return deepMerge(projectDevServerConfig, defaultsFactory(env));
-    };
+  if (publicPath.indexOf('http') !== -1) {
+    return publicPath;
+  }
+
+  const host = config.host || 'localhost';
+  const port = config.port || 30001;
+  return `http://${host}:${port}/${publicPath.replace(/^\//, '')}`;
+}
+
+function prepareDevServerConfig(config: WebpackDevServerConfig): WebpackDevServerConfig {
+  return Object.assign({}, config, {
+    publicPath: extractPublicPath(config),
+  });
+}
+
+const projectConfig: ProjectConfig = require(utils.railsPath('config/spiral.js'));
+
+/**
+ * Returns a factory for getting the project webpack dev server configuration using the
+ * value of the `devServer` property in the result of `{Rails.root}/config/spiral.js`
+ */
+function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) {
+  return (env: string): WebpackDevServerConfig => {
+    const defaultDevServerConfig = defaultsFactory(env);
+    const projectDevServerConfig = projectConfig.devServer;
+    const devServerConfig = utils.deepMerge(defaultDevServerConfig, projectDevServerConfig);
+    return prepareDevServerConfig(devServerConfig);
+  };
+}
+
+function webpackCompilerConfigFactory(defaultsFactory: ProjectConfigFactory) {
+  return (env: string) => {
+    const defaultProjectConfig = defaultsFactory(env);
+    const spiralProjectConfig = utils.deepMerge(defaultProjectConfig, projectConfig);
+    const webpackConfig = parseToCompilerConfig(spiralProjectConfig);
+    return utils.deepMerge(webpackConfig, projectConfig.compiler || {});
+  };
+}
+
+const SpiralRails = {
+  getCompilerConfigFactory() {
+    return webpackCompilerConfigFactory(compilerDefaultsFactory);
   },
 
-  webpackCompilerConfigFactory(defaultsFactory) {
-    return (env) => {
-      const defaults = defaultsFactory(env);
-      const spiralConfig = deepMerge(defaults, projectConfig);
-      const webpackConfig = formatCompilerConfig(spiralConfig);
-      return merge(webpackConfig, projectConfig.compiler);
-    };
+  getCompilerConfig(env: string) {
+    const configFactory = SpiralRails.getCompilerConfigFactory();
+    return configFactory(env);
+  },
+
+  getDevServerConfig(env: string) {
+    const configFactory = SpiralRails.getDevServerConfigFactory();
+    return configFactory(env);
+  },
+
+  getDevServerConfigFactory() {
+    return webpackDevServerConfigFactory(devServerDefaultsFactory);
   },
 };
+
+module.exports = SpiralRails;

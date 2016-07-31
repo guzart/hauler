@@ -1,11 +1,13 @@
 #!/usr/bin/env node --use_strict
+// @flow
 
 // const webpack = require('webpack');
 // const WebpackDevServer = require('webpack-dev-server');
 
-const env = process.env.RAILS_ENV || process.env.NODE_ENV;
-const devServerConfig = require('spiral-rails/src/config/webpack_dev_server')(env);
-const compilerConfig = require('spiral-rails/src/config/webpack_compiler')(env);
+const env = String(process.env.RAILS_ENV || process.env.NODE_ENV);
+const spiralRails = require('spiral-rails');
+const devServerConfig = spiralRails.getDevServerConfig(env);
+const compilerConfig = spiralRails.getCompilerConfig(env);
 
 console.log(devServerConfig);
 console.log(compilerConfig);
