@@ -11,7 +11,7 @@
   "main": "dist/index.js",
   "bin": {
     "hauler-server": "bin/dev-server.js",
-    "hauler-update-scripts": "bin/update-scripts"
+    "hauler-update-scripts": "bin/update-scripts.js"
   },
   "directories": {
     "test": "test"
