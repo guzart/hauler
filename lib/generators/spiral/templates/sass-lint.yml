@@ -1,0 +1,6 @@
+# https://github.com/sasstools/sass-lint/blob/master/lib/config/sass-lint.yml
+options:
+  formatter: stylish
+
+files:
+  include: '**/*.s+(a|c)ss'
