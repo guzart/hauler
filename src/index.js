@@ -68,9 +68,11 @@ function extractPublicPath(config: WebpackDevServerConfig): string {
 }
 
 function prepareDevServerConfig(config: WebpackDevServerConfig): WebpackDevServerConfig {
-  return Object.assign({}, config, {
+  const output = Object.assign({}, config, {
     publicPath: extractPublicPath(config),
   });
+
+  return output;
 }
 
 const projectConfig: ProjectConfig = require(utils.railsPath('config/spiral.js'));
