@@ -1,7 +1,7 @@
 module Spiral
   module Generators
     #:nodoc:
-    class SetupGenerator < ::Rails::Generators::Base
+    class InstallNpmGenerator < ::Rails::Generators::Base
       desc 'Setup spiral project'
       source_root File.expand_path('../templates', __FILE__)
 
