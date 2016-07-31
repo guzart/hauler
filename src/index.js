@@ -16,8 +16,8 @@ function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
 
 function extractResolve(config: ProjectConfig): WebpackResolveConfig {
   const resolve = config.compiler && config.compiler.resolve;
-  const modules = resolve && resolve.modules || ['node_modules'];
-  return utils.deepMerge(resolve, { modules: utils.railsPath(modules) });
+  const root = resolve && resolve.root || '';
+  return utils.deepMerge(resolve, { root: utils.railsPath(root) });
 }
 
 function extractPlugins(config: ProjectConfig): Array<WebpackPlugin> {
