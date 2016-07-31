@@ -10,6 +10,11 @@ module Spiral
 
     included do
       def spiral_javascript_include_tag(*sources)
+        if Rails.application.config.spiral.dev_server
+          # TODO: Get this from the configuration
+          return javascript_include_tag('http://localhost:3001/assets/' + sources.first + '.js')
+        end
+
         javascript_include_tag(*sources)
       end
 
