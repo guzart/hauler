@@ -67,6 +67,10 @@ module Spiral
         whatwg-fetch@1.0.0
       TXT
 
+      def add_scripts_to_package
+        `./node_modules/spiral-rails/bin/update-scripts.js`
+      end
+
       def install_dev_dependencies
         puts 'Installing NPM dev dependencies...'
         install_deps(NPM_DEV_DEPENDENCIES)

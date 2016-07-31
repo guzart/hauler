@@ -26,8 +26,9 @@ module Spiral
         template 'webpack.config.js'
       end
 
-      # def add_npm_start_script
-      # end
+      def install_npm
+        generate 'spiral:install_npm'
+      end
     end
   end
 end

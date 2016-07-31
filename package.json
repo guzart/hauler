@@ -9,7 +9,10 @@
     "url": "https://github.com/guzart/spiral-rails.git"
   },
   "main": "dist/index.js",
-  "bin": "bin/spiral-rails.js",
+  "bin": {
+    "spiral-server": "bin/dev-server.js",
+    "spiral-update-scripts": "bin/update-scripts"
+  },
   "directories": {
     "test": "test"
   },
