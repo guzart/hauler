@@ -16,8 +16,8 @@ function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
 
 function extractResolve(config: ProjectConfig): WebpackResolveConfig {
   const resolve = config.compiler && config.compiler.resolve;
-  const root = resolve && resolve.root || '';
-  return utils.deepMerge(resolve, { root: utils.railsPath(root) });
+  const modules = resolve && resolve.modules || ['node_modules'];
+  return utils.deepMerge(resolve, { modules: utils.railsPath(modules) });
 }
 
 function extractPlugins(config: ProjectConfig): Array<WebpackPlugin> {
@@ -75,7 +75,7 @@ function prepareDevServerConfig(config: WebpackDevServerConfig): WebpackDevServe
   return output;
 }
 
-const projectConfig: ProjectConfig = require(utils.railsPath('config/spiral.js'));
+const projectConfig: ProjectConfig = require(utils.railsPath('~config/spiral.js'));
 
 /**
  * Returns a factory for getting the project webpack dev server configuration using the

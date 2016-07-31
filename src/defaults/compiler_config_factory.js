@@ -84,13 +84,13 @@ function configFactory(env: string) {
   const compiler = {
     output: {
       filename: '[name].[chunkhash].js',
-      path: 'public/assets',
+      path: '~public/assets',
       chunkFilename: '[name].[chunkhash].chunk.js',
     },
     resolve: {
       root: [
-        'app/assets',
-        'lib/assets',
+        '~app/assets',
+        '~lib/assets',
       ],
     },
     devtool: '',

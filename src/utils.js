@@ -31,7 +31,11 @@ function railsPath(value: any): any {
     return output;
   }
 
-  return pathJoin(railsRoot, value);
+  if (!/^~/.test(value)) {
+    return value;
+  }
+
+  return pathJoin(railsRoot, value.replace(/^~/, ''));
 }
 
 function compact<A>(list: Array<?A>): Array<A> {
