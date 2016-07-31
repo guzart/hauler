@@ -1,12 +1,12 @@
-module Spiral
+module Hauler
   module Generators
     #:nodoc:
     class InstallGenerator < ::Rails::Generators::Base
-      desc 'Copy Spiral configuration files'
+      desc 'Copy Hauler configuration files'
       source_root File.expand_path('../templates', __FILE__)
 
-      def copy_config_spiral
-        template 'config/spiral.js'
+      def copy_config_hauler
+        template 'config/hauler.js'
       end
 
       def copy_eslintrc
@@ -27,7 +27,7 @@ module Spiral
       end
 
       def install_npm
-        generate 'spiral:install_npm'
+        generate 'hauler:install_npm'
       end
     end
   end

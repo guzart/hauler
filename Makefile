@@ -1,5 +1,5 @@
 
 build:
-	gem build spiral.gemspec
+	gem build hauler.gemspec
 
 .PHONY: all;

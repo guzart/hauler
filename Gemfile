@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in spiral.gemspec
+# Specify your gem's dependencies in hauler.gemspec
 gemspec

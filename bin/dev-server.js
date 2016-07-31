@@ -4,9 +4,9 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
 const env = String(process.env.RAILS_ENV || process.env.NODE_ENV);
-const spiralRails = require('spiral-rails');
-const devServerConfig = spiralRails.getDevServerConfig(env);
-const compilerConfig = spiralRails.getCompilerConfig(env);
+const Hauler = require('hauler');
+const devServerConfig = Hauler.getDevServerConfig(env);
+const compilerConfig = Hauler.getCompilerConfig(env);
 
 // console.log(devServerConfig);
 // console.log(compilerConfig);

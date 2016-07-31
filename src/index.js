@@ -75,11 +75,11 @@ function prepareDevServerConfig(config: WebpackDevServerConfig): WebpackDevServe
   return output;
 }
 
-const projectConfig: ProjectConfig = require(utils.railsPath('~config/spiral.js'));
+const projectConfig: ProjectConfig = require(utils.railsPath('~config/hauler.js'));
 
 /**
  * Returns a factory for getting the project webpack dev server configuration using the
- * value of the `devServer` property in the result of `{Rails.root}/config/spiral.js`
+ * value of the `devServer` property in the result of `{Rails.root}/config/hauler.js`
  */
 function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) {
   return (env: string): WebpackDevServerConfig => {
@@ -93,24 +93,24 @@ function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) 
 function webpackCompilerConfigFactory(defaultsFactory: ProjectConfigFactory) {
   return (env: string) => {
     const defaultProjectConfig = defaultsFactory(env);
-    const spiralProjectConfig = utils.deepMerge(defaultProjectConfig, projectConfig);
-    const webpackConfig = parseToCompilerConfig(spiralProjectConfig);
+    const haulerProjectConfig = utils.deepMerge(defaultProjectConfig, projectConfig);
+    const webpackConfig = parseToCompilerConfig(haulerProjectConfig);
     return utils.deepMerge(webpackConfig, projectConfig.compiler || {});
   };
 }
 
-const SpiralRails = {
+const Hauler = {
   getCompilerConfigFactory() {
     return webpackCompilerConfigFactory(compilerDefaultsFactory);
   },
 
   getCompilerConfig(env: string) {
-    const configFactory = SpiralRails.getCompilerConfigFactory();
+    const configFactory = Hauler.getCompilerConfigFactory();
     return configFactory(env);
   },
 
   getDevServerConfig(env: string) {
-    const configFactory = SpiralRails.getDevServerConfigFactory();
+    const configFactory = Hauler.getDevServerConfigFactory();
     return configFactory(env);
   },
 
@@ -119,4 +119,4 @@ const SpiralRails = {
   },
 };
 
-module.exports = SpiralRails;
+module.exports = Hauler;

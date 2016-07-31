@@ -1,17 +1,17 @@
 {
-  "name": "spiral-rails",
+  "name": "hauler",
   "version": "0.1.0",
-  "description": "NodeJS binary for the spiral-rails gem",
+  "description": "NodeJS binary for the hauler gem",
   "author": "Arturo Guzman @guzart",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/guzart/spiral-rails.git"
+    "url": "https://github.com/guzart/hauler.git"
   },
   "main": "dist/index.js",
   "bin": {
-    "spiral-server": "bin/dev-server.js",
-    "spiral-update-scripts": "bin/update-scripts"
+    "hauler-server": "bin/dev-server.js",
+    "hauler-update-scripts": "bin/update-scripts"
   },
   "directories": {
     "test": "test"

@@ -1,4 +1,4 @@
-# Spiral
+# Hauler
 
 Replaces the default Rails asset management (Sprockets) with the superior Webpack.
 
@@ -52,15 +52,14 @@ require 'sprockets/railtie'
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'spiral-rails', require: 'spiral'
+gem 'hauler'
 ```
 
 And then execute:
 
 ```bash
 bundle
-bin/rails generate spiral:install
-bin/rails generate spiral:setup
+bin/rails generate hauler:install
 ```
 
 Set your application `config.action_controller.asset_host` using an environment variable.
@@ -77,7 +76,7 @@ config.action_controller.asset_host = ENV.fetch('ASSET_HOST')
 ## Update
 
 ```bash
-bin/rails generate spiral:setup
+bin/rails generate hauler:install
 ```
 
 ## Usage
@@ -103,7 +102,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/guzart/spiral.
+Bug reports and pull requests are welcome on GitHub at https://github.com/guzart/hauler.
 
 
 ## License
@@ -112,7 +111,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 # TODO
 
-* add "start" script that runs the spiral-rails.js binary
+* add "start" script that runs the hauler.js binary
 * install React dynamically, install if present or ask otherwise
 * install Sass dynamically, install if present or ask otherwise
 * add sensible defaults to the config template

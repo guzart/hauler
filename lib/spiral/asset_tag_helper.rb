@@ -1,7 +1,7 @@
 require 'active_support/concern'
 require 'action_view/helpers'
 
-module Spiral
+module Hauler
   #:nodoc:
   module AssetTagHelper
     extend ::ActiveSupport::Concern
@@ -9,8 +9,8 @@ module Spiral
     include ::ActionView::Helpers
 
     included do
-      def spiral_javascript_include_tag(*sources)
-        if Rails.application.config.spiral.dev_server
+      def hauler_javascript_include_tag(*sources)
+        if Rails.application.config.hauler.dev_server
           # TODO: Get this from the configuration
           return javascript_include_tag('http://localhost:3001/assets/' + sources.first + '.js')
         end
@@ -18,8 +18,8 @@ module Spiral
         javascript_include_tag(*sources)
       end
 
-      def spiral_stylesheet_link_tag(*sources)
-        return nil if Rails.application.config.spiral.dev_server
+      def hauler_stylesheet_link_tag(*sources)
+        return nil if Rails.application.config.hauler.dev_server
         stylesheet_link_tag(*sources)
       end
     end

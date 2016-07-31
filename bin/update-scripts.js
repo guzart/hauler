@@ -10,7 +10,7 @@ if (!pkg.scripts) {
 }
 
 Object.assign(pkg.scripts, {
-  start: './node_modules/spiral-rails/bin/dev-server.js',
+  start: './node_modules/hauler/bin/dev-server.js',
 });
 
 const output = JSON.stringify(pkg, null, 2);

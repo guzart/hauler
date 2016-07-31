@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'spiral/version'
+require 'hauler/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'spiral-rails'
-  spec.version       = Spiral::VERSION
+  spec.name          = 'hauler'
+  spec.version       = Hauler::VERSION
   spec.authors       = ['Arturo Guzman']
   spec.email         = ['arturo@guzart.com']
 
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = <<-TXT
 Railtie to generate the files needed to use webpack as a replacement of sprockets
 TXT
-  spec.homepage      = 'https://github.com/guzart/spiral-rails'
+  spec.homepage      = 'https://github.com/guzart/hauler'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

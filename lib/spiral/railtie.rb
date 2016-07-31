@@ -1,17 +1,17 @@
 require 'rails'
 require 'rails/railtie'
 require 'active_support/ordered_options'
-require 'spiral/asset_tag_helper'
+require 'hauler/asset_tag_helper'
 # require 'yaml'
 # require 'erb'
 
-module Spiral
+module Hauler
   #:nodoc:
   class Railtie < ::Rails::Railtie
-    config.spiral = ActiveSupport::OrderedOptions.new
-    config.spiral.dev_server = true
+    config.hauler = ActiveSupport::OrderedOptions.new
+    config.hauler.dev_server = true
 
-    initializer 'spiral.configure_rails_initialization' do
+    initializer 'hauler.configure_rails_initialization' do
       # yaml = Pathname.new(Rails.root.join('config', 'assets.yml'))
       # assets_config = YAML.load(ERB.new(yaml.read).result) || {}
       # assets_config = assets_config[Rails.env]
@@ -21,7 +21,7 @@ module Spiral
       # end
 
       ::ActiveSupport.on_load :action_view do
-        include ::Spiral::AssetTagHelper
+        include ::Hauler::AssetTagHelper
       end
     end
   end

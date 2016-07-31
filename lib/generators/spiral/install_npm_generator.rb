@@ -1,8 +1,8 @@
-module Spiral
+module Hauler
   module Generators
     #:nodoc:
     class InstallNpmGenerator < ::Rails::Generators::Base
-      desc 'Setup spiral project'
+      desc 'Setup hauler project'
       source_root File.expand_path('../templates', __FILE__)
 
       NPM_DEV_DEPENDENCIES = <<-TXT.freeze
@@ -68,7 +68,7 @@ module Spiral
       TXT
 
       def add_scripts_to_package
-        `./node_modules/spiral-rails/bin/update-scripts.js`
+        `./node_modules/hauler/bin/update-scripts.js`
       end
 
       def install_dev_dependencies

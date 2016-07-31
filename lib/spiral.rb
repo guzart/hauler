@@ -1,2 +1,2 @@
-require 'spiral/version'
-require 'spiral/railtie' if defined?(Rails)
+require 'hauler/version'
+require 'hauler/railtie' if defined?(Rails)
