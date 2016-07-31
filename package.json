@@ -4,12 +4,34 @@
   "description": "NodeJS binary for the spiral-rails gem",
   "author": "Arturo Guzman @guzart",
   "license": "MIT",
-  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guzart/spiral-rails.git"
+  },
+  "main": "dist/index.js",
   "bin": "bin/spiral-rails.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm-run-all clean compile",
+    "clean": "rm -rf ./dist",
+    "compile": "./node_modules/babel-cli/bin/babel.js --out-dir=./dist --ignore=./decls ./src",
+    "dev": "npm-run-all clean watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "./node_modules/babel-cli/bin/babel.js --watch=./src --ignore=./decls --out-dir=./dist"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "eslint": "^3.2.0",
+    "eslint-plugin-flow-vars": "^0.5.0",
+    "eslint-plugin-flowtype": "^2.4.0",
+    "flow-bin": "^0.30.0"
+  },
+  "dependencies": {
+    "extract-text-webpack-plugin": "^1.0.1",
+    "webpack": "^1.13.1"
   }
 }
