@@ -135,7 +135,7 @@ function getCompilerConfigFactory() {
   return webpackCompilerConfigFactory(projectDefaultsFactory, devServerConfigFactory);
 }
 
-const Hauler = {
+const hauler = {
   getCompilerConfig(env: string, railsRoot?: string) {
     if (railsRoot != null) {
       utils.setRailsRoot(railsRoot);
@@ -153,6 +153,8 @@ const Hauler = {
     const configFactory = getDevServerConfigFactory();
     return configFactory(env);
   },
+
+  getEnvName: utils.getEnvName,
 };
 
-module.exports = Hauler;
+module.exports = hauler;

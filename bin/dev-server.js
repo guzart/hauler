@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
+const hauler = require('hauler');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
-const env = String(process.env.RAILS_ENV || process.env.NODE_ENV);
+const env = hauler.getEnvName();
 const railsRoot = process.argv[2];
 
-const Hauler = require('hauler');
-const devServerConfig = Hauler.getDevServerConfig(env, railsRoot);
-const compilerConfig = Hauler.getCompilerConfig(env, railsRoot);
+const devServerConfig = hauler.getDevServerConfig(env, railsRoot);
+const compilerConfig = hauler.getCompilerConfig(env, railsRoot);
 
 // console.log(devServerConfig);
 // console.log(compilerConfig);

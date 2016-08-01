@@ -1,5 +1,9 @@
 // @flow
 
+function getEnvName(): string {
+  return String(process.env.RAILS_ENV || process.env.NODE_ENV || 'development');
+}
+
 let railsRoot = process.cwd();
 function setRailsRoot(newRailsRoot: string) {
   railsRoot = newRailsRoot;
@@ -123,8 +127,9 @@ function formatPublicPath(publicPath: ?string, hostInfo: HostInfo): string {
 }
 
 module.exports = {
-  pathJoin,
+  getEnvName,
   setRailsRoot,
+  pathJoin,
   railsPath,
   compact,
   merge,
