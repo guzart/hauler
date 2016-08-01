@@ -10,6 +10,7 @@
   },
   "main": "dist/index.js",
   "bin": {
+    "hauler-read-config": "bin/read-config.js",
     "hauler-server": "bin/dev-server.js",
     "hauler-update-scripts": "bin/update-scripts.js"
   },
