@@ -1,3 +1,6 @@
+// @flow
+'use strict';
+
 function defaultConfigFactory() {
   return {
     quiet: false,

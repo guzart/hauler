@@ -1,8 +1,11 @@
 ---
 extends:
-  - airbnb
+  - eslint:recommended
 
 parser: babel-eslint
+
+env:
+  node: true
 
 plugins:
   - flow-vars

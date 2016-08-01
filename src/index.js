@@ -1,4 +1,6 @@
 // @flow
+'use strict';
+
 // NOTE: This code is executed in a Gem, which makes any npm package unavailable
 
 const compilerDefaultsFactory = require('./defaults/compiler_config_factory');
