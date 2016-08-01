@@ -4,9 +4,11 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
 const env = String(process.env.RAILS_ENV || process.env.NODE_ENV);
+const railsRoot = process.argv[2];
+
 const Hauler = require('hauler');
-const devServerConfig = Hauler.getDevServerConfig(env);
-const compilerConfig = Hauler.getCompilerConfig(env);
+const devServerConfig = Hauler.getDevServerConfig(env, railsRoot);
+const compilerConfig = Hauler.getCompilerConfig(env, railsRoot);
 
 // console.log(devServerConfig);
 // console.log(compilerConfig);

@@ -1,7 +1,11 @@
 // @flow
 export type Hash = {[name: string]: any};
 
-const railsRoot = process.cwd();
+let railsRoot = process.cwd();
+
+function setRailsRoot(newRailsRoot: string) {
+  railsRoot = newRailsRoot;
+}
 
 function pathJoin(...pieces: Array<?string>): string {
   const firstPiece = (pieces[0] || '').replace(/\/$/, '');
@@ -95,6 +99,7 @@ function omit(keys: Array<string>, hash: Hash) {
 
 module.exports = {
   pathJoin,
+  setRailsRoot,
   railsPath,
   compact,
   merge,

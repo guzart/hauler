@@ -77,7 +77,14 @@ function prepareDevServerConfig(config: WebpackDevServerConfig): WebpackDevServe
   return output;
 }
 
-const projectConfig: ProjectConfig = require(utils.railsPath('~config/hauler.js'));
+function getProjectConfig(): ProjectConfig {
+  if (!getProjectConfig.config) {
+    const projectConfig: ProjectConfig = require(utils.railsPath('~config/hauler.js'));
+    getProjectConfig.config = projectConfig;
+  }
+
+  return getProjectConfig.config;
+}
 
 /**
  * Returns a factory for getting the project webpack dev server configuration using the
@@ -86,7 +93,7 @@ const projectConfig: ProjectConfig = require(utils.railsPath('~config/hauler.js'
 function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) {
   return (env: string): WebpackDevServerConfig => {
     const defaultDevServerConfig = defaultsFactory(env);
-    const projectDevServerConfig = projectConfig.devServer;
+    const projectDevServerConfig = getProjectConfig().devServer;
     const devServerConfig = utils.deepMerge(defaultDevServerConfig, projectDevServerConfig);
     return prepareDevServerConfig(devServerConfig);
   };
@@ -95,9 +102,9 @@ function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) 
 function webpackCompilerConfigFactory(defaultsFactory: ProjectConfigFactory) {
   return (env: string) => {
     const defaultProjectConfig = defaultsFactory(env);
-    const haulerProjectConfig = utils.deepMerge(defaultProjectConfig, projectConfig);
+    const haulerProjectConfig = utils.deepMerge(defaultProjectConfig, getProjectConfig());
     const webpackConfig = parseToCompilerConfig(haulerProjectConfig);
-    return utils.deepMerge(webpackConfig, projectConfig.compiler || {});
+    return utils.deepMerge(webpackConfig, getProjectConfig().compiler || {});
   };
 }
 
@@ -106,12 +113,20 @@ const Hauler = {
     return webpackCompilerConfigFactory(compilerDefaultsFactory);
   },
 
-  getCompilerConfig(env: string) {
+  getCompilerConfig(env: string, railsRoot?: string) {
+    if (railsRoot != null) {
+      utils.setRailsRoot(railsRoot);
+    }
+
     const configFactory = Hauler.getCompilerConfigFactory();
     return configFactory(env);
   },
 
-  getDevServerConfig(env: string) {
+  getDevServerConfig(env: string, railsRoot?: string) {
+    if (railsRoot != null) {
+      utils.setRailsRoot(railsRoot);
+    }
+
     const configFactory = Hauler.getDevServerConfigFactory();
     return configFactory(env);
   },
