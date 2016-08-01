@@ -1,8 +1,6 @@
 // @flow
-export type Hash = {[name: string]: any};
 
 let railsRoot = process.cwd();
-
 function setRailsRoot(newRailsRoot: string) {
   railsRoot = newRailsRoot;
 }

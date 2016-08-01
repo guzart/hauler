@@ -1,3 +1,5 @@
+export type Hash = {[name: string]: any};
+
 export type HostInfo = {
   host: string,
   port: number,
