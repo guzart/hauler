@@ -81,6 +81,8 @@ function configFactory(env: string) {
   const plugins = getPlugins(env);
   const prependPlugins = [];
 
+  const publicPath = '/assets';
+
   // straight webpack configuration
   const compiler = {
     output: {
@@ -111,6 +113,7 @@ function configFactory(env: string) {
     prependPlugins,
     plugins,
     appendPlugins,
+    publicPath,
     compiler,
   };
 }

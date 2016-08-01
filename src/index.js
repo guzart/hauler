@@ -3,8 +3,8 @@
 
 // NOTE: This code is executed in a Gem, which makes any npm package unavailable
 
-const compilerDefaultsFactory = require('./defaults/compiler_config_factory');
 const devServerDefaultsFactory = require('./defaults/dev_server_config_factory');
+const projectDefaultsFactory = require('./defaults/project_config_factory');
 const utils = require('./utils');
 
 function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
