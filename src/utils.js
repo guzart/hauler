@@ -97,6 +97,33 @@ function omit(keys: Array<string>, hash: Hash) {
   return output;
 }
 
+function getHostname(hostInfo: HostInfo): string {
+  if ([80, 443].indexOf(hostInfo.port) === -1) {
+    return `${hostInfo.host}:${hostInfo.port}`;
+  }
+
+  return hostInfo.host;
+}
+
+function preparePublicPath(publicPath: ?string): string {
+  if (publicPath == null) {
+    return '';
+  }
+
+  return publicPath.replace(/^\/|\/$/g, '');
+}
+
+function formatPublicPath(publicPath: ?string, hostInfo: HostInfo): string {
+  if (publicPath && publicPath.indexOf('//') !== -1) {
+    return publicPath;
+  }
+
+  const protocol = hostInfo.port === 443 ? 'https' : 'http';
+  const host = getHostname(hostInfo);
+  const pathname = preparePublicPath(publicPath);
+  return `${protocol}://${host}/${pathname}/`;
+}
+
 module.exports = {
   pathJoin,
   setRailsRoot,
@@ -105,4 +132,5 @@ module.exports = {
   merge,
   deepMerge,
   omit,
+  formatPublicPath,
 };

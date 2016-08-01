@@ -1,3 +1,7 @@
+export type HostInfo = {
+  host: string,
+  port: number,
+};
 
 export type ProjectConfig = {
   entries?: {[name: string]: string | Array<string>},
@@ -8,6 +12,7 @@ export type ProjectConfig = {
   prependPlugins?: Array<WebpackPlugin>,
   plugins?: Array<WebpackPlugin>,
   appendPlugins?: Array<WebpackPlugin>,
+  publicPath?: string,
   devServer?: WebpackDevServerConfig,
   compiler?: WebpackConfig,
 };

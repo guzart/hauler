@@ -7,6 +7,11 @@ const devServerDefaultsFactory = require('./defaults/dev_server_config_factory')
 const projectDefaultsFactory = require('./defaults/project_config_factory');
 const utils = require('./utils');
 
+function extractHostInfo(devServerConfig: WebpackDevServerConfig): HostInfo {
+  const hostInfo = { host: devServerConfig.host, port: devServerConfig.port };
+  return utils.merge(devServerDefaultsFactory.defaultHostInfo(), hostInfo);
+}
+
 function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
   return utils.compact([
     config.javascriptLoader,
@@ -36,18 +41,25 @@ function extractModule(config: ProjectConfig): WebpackModuleConfig {
   });
 }
 
-function extractOutput(config: ProjectConfig): WebpackOutputConfig {
+function extractOutput(
+  config: ProjectConfig,
+  hostInfo: HostInfo
+): WebpackOutputConfig {
   const output = config.compiler && config.compiler.output || {};
   const path = output.path || '';
   return utils.deepMerge(output, {
     path: utils.railsPath(path),
+    publicPath: utils.formatPublicPath(config.publicPath, hostInfo),
   });
 }
 
-function parseToCompilerConfig(config: ProjectConfig): WebpackConfig {
+function parseToCompilerConfig(
+  config: ProjectConfig,
+  hostInfo: HostInfo
+): WebpackConfig {
   return {
     entry: utils.railsPath(config.entries),
-    output: extractOutput(config),
+    output: extractOutput(config, hostInfo),
     module: extractModule(config),
     plugins: extractPlugins(config),
     resolve: extractResolve(config),
@@ -99,26 +111,37 @@ function webpackDevServerConfigFactory(defaultsFactory: DevServerConfigFactory) 
   };
 }
 
-function webpackCompilerConfigFactory(defaultsFactory: ProjectConfigFactory) {
+function webpackCompilerConfigFactory(
+  defaultsFactory: ProjectConfigFactory,
+  devServerConfigFactory: DevServerConfigFactory
+) {
   return (env: string) => {
+    const devServerConfig = devServerConfigFactory(env);
+    const hostInfo = extractHostInfo(devServerConfig);
+
     const defaultProjectConfig = defaultsFactory(env);
     const haulerProjectConfig = utils.deepMerge(defaultProjectConfig, getProjectConfig());
-    const webpackConfig = parseToCompilerConfig(haulerProjectConfig);
+    const webpackConfig = parseToCompilerConfig(haulerProjectConfig, hostInfo);
     return utils.deepMerge(webpackConfig, getProjectConfig().compiler || {});
   };
 }
 
-const Hauler = {
-  getCompilerConfigFactory() {
-    return webpackCompilerConfigFactory(compilerDefaultsFactory);
-  },
+function getDevServerConfigFactory() {
+  return webpackDevServerConfigFactory(devServerDefaultsFactory);
+}
 
+function getCompilerConfigFactory() {
+  const devServerConfigFactory = getDevServerConfigFactory();
+  return webpackCompilerConfigFactory(projectDefaultsFactory, devServerConfigFactory);
+}
+
+const Hauler = {
   getCompilerConfig(env: string, railsRoot?: string) {
     if (railsRoot != null) {
       utils.setRailsRoot(railsRoot);
     }
 
-    const configFactory = Hauler.getCompilerConfigFactory();
+    const configFactory = getCompilerConfigFactory();
     return configFactory(env);
   },
 
@@ -127,12 +150,8 @@ const Hauler = {
       utils.setRailsRoot(railsRoot);
     }
 
-    const configFactory = Hauler.getDevServerConfigFactory();
+    const configFactory = getDevServerConfigFactory();
     return configFactory(env);
-  },
-
-  getDevServerConfigFactory() {
-    return webpackDevServerConfigFactory(devServerDefaultsFactory);
   },
 };
 
