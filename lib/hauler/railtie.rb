@@ -1,27 +1,20 @@
+require 'hauler'
 require 'rails'
-require 'rails/railtie'
-require 'active_support/ordered_options'
-require 'hauler/asset_tag_helper'
-# require 'yaml'
-# require 'erb'
+require 'hauler/helpers/hauler_helper'
+require 'active_support/core_ext/hash/indifferent_access'
 
+# :nodoc:
 module Hauler
-  #:nodoc:
-  class Railtie < ::Rails::Railtie
+  # :nodoc:
+  class Railtie < Rails::Railtie
     config.hauler = ActiveSupport::OrderedOptions.new
-    config.hauler.dev_server = true
+    config.hauler.dev_server = false
 
-    initializer 'hauler.configure_rails_initialization' do
-      # yaml = Pathname.new(Rails.root.join('config', 'assets.yml'))
-      # assets_config = YAML.load(ERB.new(yaml.read).result) || {}
-      # assets_config = assets_config[Rails.env]
+    config.eager_load_namespaces << Hauler
 
-      # if config.action_controller.asset_host.blank?
-      #   config.action_controller.asset_host = assets_config['asset_host']
-      # end
-
-      ::ActiveSupport.on_load :action_view do
-        include ::Hauler::AssetTagHelper
+    initializer 'hauler.helpers' do
+      ::ActiveSupport.on_load(:action_view) do
+        include Hauler::Helpers::HaulerHelper
       end
     end
   end
