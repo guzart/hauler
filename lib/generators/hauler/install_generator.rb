@@ -5,7 +5,11 @@ module Hauler
       desc 'Copy Hauler configuration files'
       source_root File.expand_path('../templates', __FILE__)
 
-      def copy_config_hauler
+      def copy_hauler_initializer
+        template 'config/initializers/hauler.rb'
+      end
+
+      def copy_hauler_config
         template 'config/hauler.js'
       end
 
