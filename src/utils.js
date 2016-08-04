@@ -10,14 +10,18 @@ function setRailsRoot(newRailsRoot: string) {
 }
 
 function pathJoin(...pieces: Array<?string>): string {
-  const firstPiece = (pieces[0] || '').replace(/\/$/, '');
-  const output = [firstPiece];
+  const output = [];
+  if (pieces[0]) {
+    const firstPiece = pieces[0].replace(/\s+|[\s\/]+$/g, '');
+    output.push(firstPiece);
+  }
+
   pieces.slice(1).forEach(piece => {
     if (piece == null) {
       return;
     }
 
-    const cleanPiece = piece.replace(/^\/|\/$/g, '');
+    const cleanPiece = piece.replace(/^[\s\/]+|[\/\s]+$/g, '');
     output.push(cleanPiece);
   });
 
@@ -78,6 +82,7 @@ function deepMerge<A: Hash, B: Hash>(a?: A, b?: B): A & B {
       return;
     }
 
+    // TODO: valueB null should overwrite valueA
     if (valueA instanceof Object && valueB instanceof Object) {
       Object.assign(output, { [keyB]: deepMerge(valueA, valueB) });
       return;
