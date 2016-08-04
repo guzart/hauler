@@ -4,6 +4,9 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
+const compilerConfigFactory = require('./compiler_config_factory');
+const devServerConfigFactory = require('./dev_server_config_factory');
+
 function getPlugins(env: string) {
   let plugins = [
     new webpack.ProvidePlugin({ fetch: 'exports?self.fetch!whatwg-fetch' }),
@@ -83,27 +86,9 @@ function configFactory(env: string) {
 
   const publicPath = '/assets';
 
-  // straight webpack configuration
-  const compiler = {
-    output: {
-      filename: '[name].[chunkhash].js',
-      path: '~public/assets',
-      chunkFilename: '[name].[chunkhash].chunk.js',
-    },
-    resolve: {
-      root: [
-        '~app/assets',
-        '~lib/assets',
-      ],
-    },
-    devtool: '',
-    target: 'web',
-  };
+  const devServer = devServerConfigFactory(env);
 
-  if (env === 'development') {
-    compiler.output.filename = '[name].js';
-    compiler.output.chunkFilename = '[name].chunk.js';
-  }
+  const compiler = compilerConfigFactory(env);
 
   return {
     javascriptLoader,
@@ -114,6 +99,7 @@ function configFactory(env: string) {
     plugins,
     appendPlugins,
     publicPath,
+    devServer,
     compiler,
   };
 }
