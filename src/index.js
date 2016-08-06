@@ -1,17 +1,6 @@
 // @flow
-'use strict';
 
-const utils = require('./utils');
-
-function extractCompilerConfig(config: ProjectConfig): WebpackConfig {
-  // TODO: parse paths, extract publicpath, etc
-  return config.compiler || {};
-}
-
-function extractDevServerConfig(config: ProjectConfig): WebpackDevServerConfig {
-  // TODO: parse paths, extract publicPath, etc
-  return config.devServer || {};
-}
+import * as utils from './utils';
 
 // function extractHostInfo(devServerConfig: WebpackDevServerConfig): HostInfo {
 //   const hostInfo = { host: devServerConfig.host, port: devServerConfig.port };
@@ -100,42 +89,6 @@ function extractDevServerConfig(config: ProjectConfig): WebpackDevServerConfig {
 //   };
 // }
 
-function mergeCompilerConfig(
-  target?: WebpackConfig,
-  source?: WebpackConfig
-): WebpackConfig {
-  // TODO: smart merge
-  return utils.deepMerge(target, source);
-}
-
-function mergeDevServerConfig(
-  target?: WebpackDevServerConfig,
-  source?: WebpackDevServerConfig
-): WebpackDevServerConfig {
-  // TODO: smart merge
-  return utils.deepMerge(target, source);
-}
-
-function mergeLoaders(target: ProjectConfig, source: ProjectConfig): ProjectConfig {
-  const loadersKeys = ['javascriptLoader', 'sassLoader', 'fontLoader', 'imageLoader'];
-  const output = {};
-  loadersKeys.forEach(key => {
-    output[key] = utils.deepMerge(target[key], source[key]);
-  });
-  return output;
-}
-
-function mergeProjectConfig(target: ProjectConfig, source: ProjectConfig): ProjectConfig {
-  const output = utils.merge(target, source);
-  Object.assign(output, mergeLoaders(target, source));
-  Object.assign(output, {
-    entries: source.entries || target.entries,
-    devServer: mergeDevServerConfig(target.devServer, source.devServer),
-    compiler: mergeCompilerConfig(target.compiler, source.compiler),
-  });
-  return output;
-}
-
 // -------------------------------------------
 // ----- ABOVE SHOULD BE MOVED TO UTILS ------
 // -------------------------------------------
@@ -154,7 +107,7 @@ function getConfigFactory(): ProjectConfigFactory {
   return (env: string) => {
     const projectConfig = getProjectConfig(env);
     const projectDefaults = getProjectDefaults(env);
-    const config = mergeProjectConfig(projectDefaults, projectConfig);
+    const config = utils.mergeProjectConfig(projectDefaults, projectConfig);
     return config;
   };
 }
@@ -165,27 +118,20 @@ function setRailsRoot(railsRoot?: string): void {
     }
 }
 
-function getConfig(env: string, railsRoot?: string) {
+export function getConfig(env: string, railsRoot?: string) {
   setRailsRoot(railsRoot);
   const configFactory = getConfigFactory();
   return configFactory(env);
 }
 
-function getDevServerConfig(env: string, railsRoot?: string): WebpackDevServerConfig {
+export function getDevServerConfig(env: string, railsRoot?: string): WebpackDevServerConfig {
   const config = getConfig(env, railsRoot);
-  return extractDevServerConfig(config);
+  return utils.extractDevServerConfig(config);
 }
 
-function getCompilerConfig(env: string, railsRoot?: string): WebpackConfig {
+export function getCompilerConfig(env: string, railsRoot?: string): WebpackConfig {
   const config = getConfig(env, railsRoot);
-  return extractCompilerConfig(config);
+  return utils.extractCompilerConfig(config);
 }
 
-const hauler = {
-  getCompilerConfig,
-  getConfig,
-  getDevServerConfig,
-  getEnvName: utils.getEnvName,
-};
-
-module.exports = hauler;
+export { getEnvName } from './utils';
