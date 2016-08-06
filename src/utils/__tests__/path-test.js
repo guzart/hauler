@@ -1,6 +1,6 @@
-jest.unmock('../utils');
+jest.unmock('../path');
 
-const utils = require('../utils');
+const utils = require('../path');
 
 describe('pathJoin', () => {
   it('leaves the leading slash on the first piece', () => {

@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npm-run-all clean compile generate_package",
     "clean": "rm -rf ./dist",
-    "compile": "./node_modules/babel-cli/bin/babel.js --out-dir=./dist --ignore=./decls ./src",
+    "compile": "./node_modules/babel-cli/bin/babel.js --out-dir=./dist --ignore=./decls,**/__tests__/*.js ./src",
     "dev": "npm-run-all clean watch",
     "generate_package": "node make-package.js",
     "test": "jest --verbose",
