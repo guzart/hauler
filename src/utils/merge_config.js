@@ -27,16 +27,6 @@ function mergeLoaders(target: ProjectConfig, source: ProjectConfig): ProjectConf
   return output;
 }
 
-export function extractCompilerConfig(config: ProjectConfig): WebpackConfig {
-  // TODO: parse paths, extract publicpath, etc
-  return config.compiler || {};
-}
-
-export function extractDevServerConfig(config: ProjectConfig): WebpackDevServerConfig {
-  // TODO: parse paths, extract publicPath, etc
-  return config.devServer || {};
-}
-
 export function mergeProjectConfig(target: ProjectConfig, source: ProjectConfig): ProjectConfig {
   const output = misc.merge(target, source);
   Object.assign(output, mergeLoaders(target, source));

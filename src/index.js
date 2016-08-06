@@ -105,21 +105,18 @@ function getProjectDefaults(env: string): ProjectConfig {
 
 function getConfigFactory(): ProjectConfigFactory {
   return (env: string) => {
-    const projectConfig = getProjectConfig(env);
     const projectDefaults = getProjectDefaults(env);
+    const projectConfig = getProjectConfig(env);
     const config = utils.mergeProjectConfig(projectDefaults, projectConfig);
     return config;
   };
 }
 
-function setRailsRoot(railsRoot?: string): void {
-    if (railsRoot != null) {
-      utils.setRailsRoot(railsRoot);
-    }
-}
-
 export function getConfig(env: string, railsRoot?: string) {
-  setRailsRoot(railsRoot);
+  if (railsRoot != null) {
+    utils.setRailsRoot(railsRoot);
+  }
+
   const configFactory = getConfigFactory();
   return configFactory(env);
 }
