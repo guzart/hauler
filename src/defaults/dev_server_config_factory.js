@@ -1,15 +1,11 @@
 // @flow
-'use strict';
 
-const DEFAULT_HOST = 'localhost';
-const DEFAULT_PORT = 3001;
-
-function defaultConfigFactory() {
+export default function defaultConfigFactory() {
   return {
     quiet: false,
     noInfo: false,
-    host: DEFAULT_HOST,
-    port: DEFAULT_PORT,
+    host: 'localhost',
+    port: 3001,
     hot: true,
     inline: true,
     headers: { 'AccessControl-Allow-Origin': '*' },
@@ -21,8 +17,3 @@ function defaultConfigFactory() {
     },
   };
 }
-
-defaultConfigFactory.defaultHostInfo = (): HostInfo =>
-  ({ host: DEFAULT_HOST, port: DEFAULT_PORT });
-
-module.exports = defaultConfigFactory;

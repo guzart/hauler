@@ -1,7 +1,6 @@
 // @flow
-'use strict';
 
-function defaultConfigFactory(env: string): WebpackConfig {
+export default function defaultConfigFactory(env: string): WebpackConfig {
   const config = {
     output: {
       filename: '[name].[chunkhash].js',
@@ -25,5 +24,3 @@ function defaultConfigFactory(env: string): WebpackConfig {
 
   return config;
 }
-
-module.exports = defaultConfigFactory;

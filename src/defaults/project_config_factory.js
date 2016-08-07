@@ -1,11 +1,10 @@
 // @flow
-'use strict';
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const webpack = require('webpack');
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import * as webpack from 'webpack';
 
-const compilerConfigFactory = require('./compiler_config_factory');
-const devServerConfigFactory = require('./dev_server_config_factory');
+import devServerConfigFactory from './dev_server_config_factory';
+import compilerConfigFactory from './compiler_config_factory';
 
 function getPlugins(env: string) {
   let plugins = [
@@ -107,4 +106,4 @@ function configFactory(env: string) {
   };
 }
 
-module.exports = configFactory;
+export default configFactory;

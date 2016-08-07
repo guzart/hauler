@@ -1,5 +1,7 @@
 // @flow
 
+// DEV SERVER
+
 export type WebpackDevServerStatsConfig = {
   colors?: boolean,
   hash?: boolean,
@@ -28,6 +30,8 @@ export type WebpackDevServerConfig = {
   headers?: Object,
   stats?: WebpackDevServerStatsConfig,
 };
+
+// COMPILER
 
 export type WebpackPlugin = Object;
 
