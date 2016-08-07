@@ -38,6 +38,8 @@ function getPlugins(env: string) {
 }
 
 function configFactory(env: string) {
+  const entries = {};
+
   // individual loaders so that they can be replaced separately
   const javascriptLoader = {
     test: /\.jsx?$/,
@@ -91,6 +93,7 @@ function configFactory(env: string) {
   const compiler = compilerConfigFactory(env);
 
   return {
+    entries,
     javascriptLoader,
     sassLoader,
     fontLoader,
