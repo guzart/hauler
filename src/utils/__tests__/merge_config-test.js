@@ -10,7 +10,9 @@ const defaults = {
   plugins: ['plugins'],
   appendPlugins: ['append'],
   publicPath: '/my-assets',
-  devServer: {},
+  devServer: {
+    stats: { colors: true },
+  },
   compiler: {
     output: { filename: '[name]-[hash].js' },
     module: { loaders: [{ test: /\.js$/ }] },
@@ -39,6 +41,12 @@ describe('mergeProjectConfig', () => {
     const devServer = { contentBase: '/', quiet: true };
     utils.mergeProjectConfig(defaults, { devServer });
     expect(misc.merge).toBeCalledWith(defaults.devServer, devServer);
+  });
+
+  it('merges the source.devServer.stats into the defaults.devServer.stats', () => {
+    const stats = { hash: true };
+    utils.mergeProjectConfig(defaults, { devServer: { stats } });
+    expect(misc.merge).toBeCalledWith(defaults.devServer.stats, stats);
   });
 
   it('merges the source.compiler into the defaults.compiler', () => {

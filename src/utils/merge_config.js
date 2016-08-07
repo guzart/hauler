@@ -14,11 +14,21 @@ function mergeCompilerConfig(
   });
 }
 
+function mergeDevServerConfig(
+  target: WebpackDevServerConfig = {},
+  source: WebpackDevServerConfig = {}
+): WebpackDevServerConfig {
+  const output = misc.merge(target, source);
+  return Object.assign(output, {
+    stats: misc.merge(target.stats, source.stats),
+  });
+}
+
 export function mergeProjectConfig(target: ProjectConfig, source: ProjectConfig): ProjectConfig {
   const output = misc.merge(target, source);
   return Object.assign(output, {
     entries: source.entries || target.entries || {},
-    devServer: misc.merge(target.devServer, source.devServer),
+    devServer: mergeDevServerConfig(target.devServer, source.devServer),
     compiler: mergeCompilerConfig(target.compiler, source.compiler),
   });
 }
