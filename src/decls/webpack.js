@@ -29,7 +29,16 @@ export type WebpackDevServerConfig = {
   stats?: WebpackDevServerStatsConfig,
 };
 
-export type WebpackEntry = string | Array<string> | { [key: string]: WebpackEntry };
+export type WebpackPlugin = Object;
+
+export type WebpackLoader = {
+  test?: Object,
+  exclude?: Object,
+  include?: Object,
+  loader?: string,
+  loaders?: Array<string>,
+  query?: Object,
+};
 
 export type WebpackResolveConfig = {
   alias?: Object,
@@ -46,14 +55,6 @@ export type WebpackResolveLoaderConfig = WebpackResolveConfig & {
   moduleTemplates?: Array<string>,
 };
 
-export type WebpackLoader = {
-  test?: Object,
-  exclude?: Object,
-  include?: Object,
-  loader?: string,
-  loaders?: Array<string>,
-  query?: Object,
-};
 
 export type WebpackModuleConfig = {
   loaders?: Array<WebpackLoader>;
@@ -61,8 +62,6 @@ export type WebpackModuleConfig = {
   postLoaders?: Array<WebpackLoader>;
   noParse?: Object | Array<Object>;
 }
-
-export type WebpackPlugin = Object;
 
 export type WebpackOutputConfig = {
   filename?: string,
@@ -88,6 +87,8 @@ export type WebpackOutputConfig = {
   sourcePrefix?: string,
   crossOriginLoading?: false | 'anonymous' | 'use-credentials',
 };
+
+export type WebpackEntry = string | Array<string> | { [key: string]: WebpackEntry };
 
 export type WebpackConfig = {
   context?: string,
