@@ -20,16 +20,10 @@ module Hauler
         end
 
         def hauler_entries_names
-          entries = hauler_webpack_config.try(:[], 'compilerConfig').try(:[], 'entry')
-          return [] if entries.blank?
-
-          if entries.is_a?(Array)
-            return entries.map { |e| File.basename(e).gsub(/\.(css|js)$/, '') }
+          @hauler_entries_names ||= begin
+            entries = hauler_webpack_config.try(:[], 'compilerConfig').try(:[], 'entry')
+            entries.try(:keys) || []
           end
-
-          return entries.keys if entries.respond_to?(:keys)
-
-          []
         end
 
         def hauler_entry?(path)
@@ -38,10 +32,10 @@ module Hauler
         end
 
         def hauler_public_path
-          output_config = hauler_webpack_config.try(:[], 'compilerConfig').try(:[], 'output')
-          public_path = output_config.try(:[], 'publicPath')
-          return '' if public_path.blank?
-          'http://localhost:3000/assets'.gsub(%r{/$}, '')
+          @hauler_public_path ||= begin
+            public_path = hauler_webpack_config.try(:[], 'devServerConfig').try(:[], 'publicPath')
+            public_path.gsub(%r{/$}, '')
+          end
         end
 
         def hauler_format_entry_path(entry)
@@ -69,12 +63,12 @@ module Hauler
         alias_method :orig_stylesheet_link_tag, :stylesheet_link_tag
 
         def stylesheet_link_tag(*sources)
+          return orig_stylesheet_link_tag(*sources) unless hauler_dev_server?
           options = sources.extract_options!.stringify_keys
-          output = sources.map do |source|
+          sources.map do |source|
             next if hauler_entry?(source)
             orig_stylesheet_link_tag(source, options)
-          end
-          output.compact.join("\n").html_safe
+          end.compact.join("\n").html_safe
         end
       end
     end
