@@ -26,6 +26,16 @@ module Hauler
         template 'package.json' if !has_package_json
       end
 
+      def add_node_modules_to_gitignore
+        has_gitignore = File.exist?(Rails.root.join('package.json'))
+        return if !has_gitignore
+
+        has_node_modules = IO.read('.gitignore').include? 'node_modules'
+        return if has_node_modules
+
+        inject_into_file '.gitignore', "/node_modules\n", before: /\Z/m
+      end
+
       def copy_webpack_config
         template 'webpack.config.js'
       end
