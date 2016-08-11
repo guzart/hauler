@@ -12,4 +12,6 @@ plugins:
   - flowtype
 
 rules:
+  flowtype/define-flow-type: 1
+  flowtype/use-flow-type: 1
   max-len: [2, 140, 2]
