@@ -68,10 +68,6 @@ module Hauler
         whatwg-fetch@1.0.0
       TXT
 
-      def add_scripts_to_package
-        `./node_modules/hauler/bin/update-scripts.js`
-      end
-
       def install_dev_dependencies
         puts 'Installing NPM dev dependencies...'
         install_deps(NPM_DEV_DEPENDENCIES)
@@ -100,11 +96,15 @@ module Hauler
         install_deps(NPM_DEPENDENCIES, dev: false)
       end
 
+      def add_scripts_to_package
+        run('hauler-update-scripts')
+      end
+
       private
 
       def install_deps(list, dev: true)
         flag = dev ? '--save-dev' : '--save'
-        `npm install #{flag} #{list.gsub(/\s+/m, ' ')}`
+        run("npm install #{flag} #{list.gsub(/\s+/m, ' ')}")
       end
     end
   end
