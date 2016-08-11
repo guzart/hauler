@@ -4,11 +4,9 @@
   ],
   "parser": "babel-eslint",
   "plugins": [
-    "flow-vars"
+    "flow-type"
   ],
   "rules": {
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
     "max-len": [2, 140, 2]
   },
   "settings": {

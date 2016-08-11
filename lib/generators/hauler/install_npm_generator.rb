@@ -28,7 +28,7 @@ module Hauler
         eslint@2.13.1
         eslint-config-airbnb@9.0.1
         eslint-import-resolver-webpack@0.4.0
-        eslint-plugin-flow-vars@0.5.0
+        eslint-plugin-flowtype@2.4.0
         eslint-plugin-import@1.12.0
         eslint-plugin-jsx-a11y@1.5.5
         eslint-plugin-react@5.2.2
