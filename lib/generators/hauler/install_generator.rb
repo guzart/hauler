@@ -13,6 +13,11 @@ module Hauler
         template 'config/hauler.js'
       end
 
+      def copy_example_assets
+        has_file = File.exist?(Rails.root.join('app', 'assets', 'index.js'))
+        template 'app/assets/index.js' if !has_file
+      end
+
       def copy_eslintrc
         template 'eslintrc.json', '.eslintrc.json'
       end
