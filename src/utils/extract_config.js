@@ -22,10 +22,20 @@ function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
   return baseLoaders.concat(customLoaders);
 }
 
+function extractResolveAlias(config: ProjectConfig): Object {
+  const resolveConfig = config.compiler && config.compiler.resolve || {};
+  const alias = resolveValuesRailsPath(resolveConfig.alias);
+  if (config.appName != null) {
+    Object.assign(alias, { [config.appName]: railsPath('~app/assets/') });
+  }
+
+  return alias;
+}
+
 function extractResolve(config: ProjectConfig): WebpackResolveConfig {
   const resolveConfig = config.compiler && config.compiler.resolve || {};
   return Object.assign(resolveConfig, {
-    alias: resolveValuesRailsPath(resolveConfig.alias),
+    alias: extractResolveAlias(config),
     root: railsPath(resolveConfig.root),
   });
 }

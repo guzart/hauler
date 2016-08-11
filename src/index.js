@@ -21,22 +21,24 @@ function getConfigFactory(): ProjectConfigFactory {
   };
 }
 
-export function getConfig(env: string, railsRoot?: string) {
-  if (railsRoot != null) {
-    utils.setRailsRoot(railsRoot);
-  }
-
+export function getConfig(env: string, railsRoot: string, appName: string) {
+  utils.setRailsRoot(railsRoot);
   const configFactory = getConfigFactory();
-  return configFactory(env);
+  const config = configFactory(env);
+  return Object.assign(config, { appName });
 }
 
-export function getDevServerConfig(env: string, railsRoot?: string): WebpackDevServerConfig {
-  const config = getConfig(env, railsRoot);
+export function getDevServerConfig(
+  env: string, railsRoot: string, appName: string
+): WebpackDevServerConfig {
+  const config = getConfig(env, railsRoot, appName);
   return utils.extractDevServerConfig(config);
 }
 
-export function getCompilerConfig(env: string, railsRoot?: string): WebpackConfig {
-  const config = getConfig(env, railsRoot);
+export function getCompilerConfig(
+  env: string, railsRoot: string, appName: string
+): WebpackConfig {
+  const config = getConfig(env, railsRoot, appName);
   return utils.extractCompilerConfig(config);
 }
 
