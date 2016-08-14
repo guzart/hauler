@@ -11,10 +11,8 @@ function getPlugins(env: string) {
     new webpack.ProvidePlugin({ fetch: 'exports?self.fetch!whatwg-fetch' }),
     new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify(env) } }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
       children: true,
       minChunks: 2,
-      async: true,
     }),
   ];
 
