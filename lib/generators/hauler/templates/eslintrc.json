@@ -4,7 +4,7 @@
   ],
   "parser": "babel-eslint",
   "plugins": [
-    "flow-type"
+    "flowtype"
   ],
   "rules": {
     "flowtype/define-flow-type": 1,
