@@ -15,7 +15,7 @@
     "hauler-update-scripts": "src/bin/update-scripts.js"
   },
   "scripts": {
-    "build": "npm-run-all clean compile generate_package",
+    "build": "npm-run-all clean generate_package compile",
     "clean": "rm -rf ./dist",
     "compile": "./node_modules/babel-cli/bin/babel.js --out-dir=./dist --ignore=./decls,**/__tests__ ./src",
     "dev": "npm-run-all clean generate_package watch",
