@@ -5,6 +5,25 @@ module Hauler
       desc 'Setup hauler project'
       source_root File.expand_path('../templates', __FILE__)
 
+      NPM_DEV_DEPENDENCIES = <<-TXT.freeze
+        babel-core@6.13.2
+        babel-loader@6.2.4
+        babel-plugin-transform-class-properties@6.11.5
+        babel-preset-es2015@6.13.2
+        babel-preset-react-hmre
+        babel-preset-stage-2@6.13.0
+        css-loader@0.23.1
+        extract-text-webpack-plugin@2.0.0-beta.3
+        file-loader@0.9.0
+        hauler@0.1.1
+        image-webpack-loader@2.0.0
+        immutable-devtools@0.0.7
+        style-loader@0.13.1
+        url-loader@0.5.7
+        webpack@2.1.0-beta.20
+        webpack-dev-server@2.1.0-beta.0
+      TXT
+
       NPM_DEPENDENCIES = <<-TXT.freeze
         babel-polyfill@6.13.0
         whatwg-fetch@1.0.0
@@ -29,25 +48,6 @@ module Hauler
         sass-loader@4.0.0
       TXT
 
-      NPM_DEV_DEPENDENCIES = <<-TXT.freeze
-        babel-core@6.13.2
-        babel-loader@6.2.4
-        babel-plugin-transform-class-properties@6.11.5
-        babel-preset-es2015@6.13.2
-        babel-preset-react-hmre
-        babel-preset-stage-2@6.13.0
-        css-loader@0.23.1
-        extract-text-webpack-plugin@2.0.0-beta.3
-        file-loader@0.9.0
-        hauler@0.1.1
-        image-webpack-loader@2.0.0
-        immutable-devtools@0.0.7
-        style-loader@0.13.1
-        url-loader@0.5.7
-        webpack@2.1.0-beta.20
-        webpack-dev-server@2.1.0-beta.0
-      TXT
-
       LINTER_DEV_DEPENDENCES = <<-TXT.freeze
         babel-eslint@6.1.2
         eslint@3.3.1
@@ -68,6 +68,11 @@ module Hauler
         redux-logger@2.6.1
       TXT
 
+      def install_dev_dependencies
+        puts 'Installing NPM dev dependencies...'
+        install_deps(NPM_DEV_DEPENDENCIES)
+      end
+
       def install_dependencies
         puts 'Installing NPM dependencies...'
         install_deps(NPM_DEPENDENCIES, dev: false)
@@ -84,11 +89,6 @@ module Hauler
       def install_sass_dependencies
         puts 'Installing Sass NPM dependencies...'
         install_deps(SASS_NPM_DEV_DEPENDENCIES)
-      end
-
-      def install_dev_dependencies
-        puts 'Installing NPM dev dependencies...'
-        install_deps(NPM_DEV_DEPENDENCIES)
       end
 
       def install_linter_dev_dependencies
