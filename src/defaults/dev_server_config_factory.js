@@ -12,7 +12,7 @@ export default function defaultConfigFactory() {
     stats: {
       colors: true,
       chunks: true,
-      chunkModules: true,
+      chunkModules: false,
       timings: true,
     },
   };
