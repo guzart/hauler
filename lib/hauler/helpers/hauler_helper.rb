@@ -16,7 +16,7 @@ module Hauler
 
         def hauler_webpack_config
           return nil if !hauler_dev_server?
-          @hauler_webpack_config ||= JSON.parse(`hauler-read-config`)
+          @hauler_webpack_config ||= JSON.parse(`hauler-read-config #{Rails.root}`)
         end
 
         def hauler_entries_names
