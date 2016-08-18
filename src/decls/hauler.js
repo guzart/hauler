@@ -7,7 +7,7 @@ export type HostInfo = {
 
 export type ProjectConfig = {
   appName?: string,
-  entries?: {[name: string]: string | Array<string>},
+  entries?: WebpackEntry,
   javascriptLoader?: WebpackLoader,
   sassLoader?: WebpackLoader,
   fontLoader?: WebpackLoader,

@@ -92,7 +92,8 @@ export type WebpackOutputConfig = {
   crossOriginLoading?: false | 'anonymous' | 'use-credentials',
 };
 
-export type WebpackEntry = string | Array<string> | { [key: string]: WebpackEntry };
+type SimpleWebpackEntry = string | Array<string>;
+export type WebpackEntry = SimpleWebpackEntry | { [key: string]: SimpleWebpackEntry };
 
 export type WebpackConfig = {
   context?: string,
