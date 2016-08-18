@@ -9,5 +9,6 @@ publish_npm:
 	npm run build
 	cd dist/
 	npm publish
+	cd ..
 
 .PHONY: all;
