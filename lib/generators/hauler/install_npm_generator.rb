@@ -15,7 +15,7 @@ module Hauler
         css-loader@0.23.1
         extract-text-webpack-plugin@2.0.0-beta.3
         file-loader@0.9.0
-        hauler@0.1.1
+        hauler@0.3.0
         image-webpack-loader@2.0.0
         immutable-devtools@0.0.7
         style-loader@0.13.1
