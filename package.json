@@ -1,6 +1,6 @@
 {
   "name": "hauler",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "NodeJS binary for the hauler gem",
   "author": "Arturo Guzman @guzart",
   "license": "MIT",
