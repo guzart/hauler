@@ -4,7 +4,7 @@
 
 const railsRoot = process.argv[2];
 
-const hauler = require('hauler');
+const hauler = require('../index');
 const env = hauler.getEnvName();
 
 const devServerConfig = hauler.getDevServerConfig(env, railsRoot);

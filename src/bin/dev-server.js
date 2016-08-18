@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const hauler = require('hauler');
+const hauler = require('../index');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
