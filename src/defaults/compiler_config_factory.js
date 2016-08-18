@@ -8,10 +8,11 @@ export default function defaultConfigFactory(env: string): WebpackConfig {
       chunkFilename: '[name].[chunkhash].chunk.js',
     },
     resolve: {
-      root: [
+      modules: [
         '~app/assets',
         '~lib/assets',
       ],
+      extensions: ['.js', '.json', '.jsx']
     },
     devtool: '',
     target: 'web',

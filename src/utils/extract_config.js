@@ -36,7 +36,7 @@ function extractResolve(config: ProjectConfig): WebpackResolveConfig {
   const resolveConfig = config.compiler && config.compiler.resolve || {};
   return Object.assign(resolveConfig, {
     alias: extractResolveAlias(config),
-    root: railsPath(resolveConfig.root),
+    modules: railsPath(resolveConfig.modules),
   });
 }
 
