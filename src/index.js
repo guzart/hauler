@@ -39,7 +39,15 @@ export function getCompilerConfig(
   env: string, railsRoot: string, appName: string
 ): WebpackConfig {
   const config = getConfig(env, railsRoot, appName);
-  return utils.extractCompilerConfig(config);
+  const compilerConfig = utils.extractCompilerConfig(config);
+  if (env !== 'development') {
+    return compilerConfig;
+  }
+
+  const devServerConfig = utils.extractDevServerConfig(config);
+  return Object.assign(compilerConfig, {
+    entry: utils.makeHotReloadableEntries(compilerConfig.entry, devServerConfig.publicPath),
+  });
 }
 
 export { getEnvName } from './utils';

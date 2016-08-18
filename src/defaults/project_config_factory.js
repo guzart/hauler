@@ -18,6 +18,7 @@ function getPlugins(env: string) {
 
   if (env === 'development') {
     plugins = plugins.concat([
+      new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
     ]);
   }
@@ -77,6 +78,8 @@ function configFactory(env: string) {
       'style',
       sassLoader.loader.replace('style!', '')
     );
+  } else {
+    javascriptLoader.query.presets = javascriptLoader.query.presets.concat(['react-hmre']);
   }
 
   const appendPlugins = [];
