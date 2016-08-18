@@ -24,9 +24,9 @@
     "watch": "./node_modules/babel-cli/bin/babel.js --watch=./src --ignore=./decls,**/__tests__ --out-dir=./dist"
   },
   "peerDependencies": {
-    "extract-text-webpack-plugin": "~2.0",
-    "webpack": "~2.1",
-    "webpack-dev-server": "~2.1",
+    "extract-text-webpack-plugin": ">=2.0.0-beta.3",
+    "webpack": ">=2.1.0-beta.20",
+    "webpack-dev-server": ">=2.1.0-beta.0",
     "whatwg-fetch": "~1.0"
   },
   "devDependencies": {
