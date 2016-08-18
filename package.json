@@ -25,6 +25,7 @@
   },
   "peerDependencies": {
     "extract-text-webpack-plugin": ">=2.0.0-beta.3",
+    "react": ">=15.3.0",
     "webpack": ">=2.1.0-beta.20",
     "webpack-dev-server": ">=2.1.0-beta.0",
     "whatwg-fetch": "~1.0"
