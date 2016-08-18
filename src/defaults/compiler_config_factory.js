@@ -9,6 +9,7 @@ export default function defaultConfigFactory(env: string): WebpackConfig {
     },
     resolve: {
       modules: [
+        'node_modules',
         '~app/assets',
         '~lib/assets',
       ],
