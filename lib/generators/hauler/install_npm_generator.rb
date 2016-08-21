@@ -8,6 +8,7 @@ module Hauler
       NPM_DEV_DEPENDENCIES = <<-TXT.freeze
         babel-core@6.13.2
         babel-loader@6.2.4
+        babel-polyfill@6.13.0
         babel-plugin-transform-class-properties@6.11.5
         babel-preset-es2015@6.13.2
         babel-preset-react-hmre
@@ -32,8 +33,13 @@ module Hauler
 
       REACT_NPM_DEPENDENCIES = <<-TXT.freeze
         immutable@3.8.1
+        intl@1.2.4
+        invariant@2.2.1
+        lodash@4.15.0
         react@15.3.0
         react-dom@15.3.0
+        react-helmet@3.1.0
+        react-intl@2.1.3
         react-redux@4.4.5
         react-router@2.6.1
         react-router-redux@4.0.5
@@ -42,6 +48,7 @@ module Hauler
         redux-immutable@3.0.7
         redux-saga@0.11.0
         reselect@2.5.3
+        warning@3.0.0
       TXT
 
       SASS_NPM_DEV_DEPENDENCIES = <<-TXT.freeze
