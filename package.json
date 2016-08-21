@@ -8,11 +8,11 @@
     "type": "git",
     "url": "https://github.com/guzart/hauler.git"
   },
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "bin": {
-    "hauler-read-config": "src/bin/read-config.js",
-    "hauler-server": "src/bin/dev-server.js",
-    "hauler-update-scripts": "src/bin/update-scripts.js"
+    "hauler-read-config": "dist/bin/read-config.js",
+    "hauler-server": "dist/bin/dev-server.js",
+    "hauler-update-scripts": "dist/bin/update-scripts.js"
   },
   "scripts": {
     "build": "npm-run-all clean generate_package compile",
