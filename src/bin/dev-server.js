@@ -1,14 +1,16 @@
 #!/usr/bin/env node
+// @flow
 
-const hauler = require('../index');
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import { getAppName, getCompilerConfig, getDevServerConfig, getEnvName } from '../index';
 
-const env = hauler.getEnvName();
-const railsRoot = process.argv[2];
+const env = getEnvName();
+const railsRoot = process.argv[2] || process.cwd();
+const appName = process.argv[3] || getAppName(railsRoot);
 
-const devServerConfig = hauler.getDevServerConfig(env, railsRoot);
-const compilerConfig = hauler.getCompilerConfig(env, railsRoot);
+const devServerConfig = getDevServerConfig(env, railsRoot, appName);
+const compilerConfig = getCompilerConfig(env, railsRoot, appName);
 
 // console.log(devServerConfig);
 // console.log(compilerConfig);

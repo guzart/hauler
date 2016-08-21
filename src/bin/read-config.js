@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // @flow
-'use strict';
 
-const railsRoot = process.argv[2];
+import { getAppName, getCompilerConfig, getDevServerConfig, getEnvName } from '../index';
 
-const hauler = require('../index');
-const env = hauler.getEnvName();
+const env = getEnvName();
+const railsRoot = process.argv[2] || process.cwd();
+const appName = process.argv[3] || getAppName(railsRoot);
 
-const devServerConfig = hauler.getDevServerConfig(env, railsRoot);
-const compilerConfig = hauler.getCompilerConfig(env, railsRoot);
+const devServerConfig = getDevServerConfig(env, railsRoot, appName);
+const compilerConfig = getCompilerConfig(env, railsRoot, appName);
 const config = { devServerConfig, compilerConfig };
 const output = JSON.stringify(config);
 

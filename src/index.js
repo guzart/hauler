@@ -1,5 +1,7 @@
 // @flow
 
+import fs from 'fs';
+import path from 'path';
 import * as utils from './utils';
 
 function getProjectConfig(env: string): ProjectConfig {
@@ -51,3 +53,9 @@ export function getCompilerConfig(
 }
 
 export { getEnvName } from './utils';
+
+export function getAppName(railsRoot: string): string {
+  const contents = fs.readFileSync(path.join(railsRoot, 'package.json'));
+  const pkg = JSON.parse(contents.toString());
+  return pkg.name;
+}
