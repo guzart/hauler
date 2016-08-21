@@ -12,9 +12,9 @@ export default function defaultConfigFactory(env: string): WebpackConfig {
         'node_modules',
         '~lib/assets',
       ],
-      extensions: ['', '.js', '.json', '.jsx']
+      extensions: ['.js', '.json', '.jsx']
     },
-    devtool: '',
+    devtool: 'cheap-module-eval-source-map',
     target: 'web',
   };
 
