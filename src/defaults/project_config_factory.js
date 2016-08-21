@@ -51,7 +51,7 @@ function configFactory(env: string) {
 
   const sassLoader = {
     test: /\.scss$/,
-    loader: 'style!css!sass',
+    loader: 'style!css?modules!sass',
   };
 
   const fontLoader = {
