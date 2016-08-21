@@ -48,6 +48,12 @@ module Hauler
       def install_npm
         generate 'hauler:install_npm'
       end
+
+      private
+
+      def rails_app_name
+        Rails.application.class.parent.name
+      end
     end
   end
 end

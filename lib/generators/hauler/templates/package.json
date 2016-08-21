@@ -1,4 +1,5 @@
 {
+  "name": "<%= rails_app_name.underscore %>",
   "private": true,
   "scripts": {
   },
