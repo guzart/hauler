@@ -18,7 +18,7 @@
     "build": "npm-run-all clean generate_package compile",
     "clean": "rm -rf ./dist",
     "compile": "./node_modules/babel-cli/bin/babel.js --out-dir=./dist --ignore=./decls,**/__tests__ ./src",
-    "dev": "npm-run-all generate_package watch",
+    "dev": "npm-run-all clean generate_package watch",
     "generate_package": "node make-package.js",
     "test": "jest --verbose",
     "watch": "./node_modules/babel-cli/bin/babel.js --watch=./src --ignore=./decls,**/__tests__ --out-dir=./dist"
@@ -26,6 +26,7 @@
   "peerDependencies": {
     "extract-text-webpack-plugin": ">=2.0.0-beta.3",
     "react": ">=15.3.0",
+    "react-dom": ">=15.3.0",
     "webpack": ">=2.1.0-beta.20",
     "webpack-dev-server": ">=2.1.0-beta.0",
     "whatwg-fetch": "~1.0"
