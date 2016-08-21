@@ -12,6 +12,7 @@ export type ProjectConfig = {
   sassLoader?: WebpackLoader,
   fontLoader?: WebpackLoader,
   imageLoader?: WebpackLoader,
+  jsonLoader?: WebpackLoader,
   prependPlugins?: Array<WebpackPlugin>,
   plugins?: Array<WebpackPlugin>,
   appendPlugins?: Array<WebpackPlugin>,

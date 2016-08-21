@@ -67,6 +67,11 @@ function configFactory(env: string) {
     ],
   };
 
+  const jsonLoader = {
+    test: /\.json$/,
+    loader: 'json',
+  };
+
   if (env === 'production') {
     javascriptLoader.query.plugins = javascriptLoader.query.plugins.concat([
       'transform-react-remove-prop-types',
@@ -98,6 +103,7 @@ function configFactory(env: string) {
     sassLoader,
     fontLoader,
     imageLoader,
+    jsonLoader,
     prependPlugins,
     plugins,
     appendPlugins,

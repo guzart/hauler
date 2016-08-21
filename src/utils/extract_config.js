@@ -16,6 +16,7 @@ function extractLoaders(config: ProjectConfig): Array<WebpackLoader> {
     config.sassLoader,
     config.fontLoader,
     config.imageLoader,
+    config.jsonLoader,
   ]);
 
   const customLoaders = config.module && config.module.loaders || [];

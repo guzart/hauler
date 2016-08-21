@@ -18,6 +18,7 @@ module Hauler
         hauler@0.3.4
         image-webpack-loader@2.0.0
         immutable-devtools@0.0.7
+        json-loader@0.5.4
         style-loader@0.13.1
         url-loader@0.5.7
         webpack@2.1.0-beta.20
