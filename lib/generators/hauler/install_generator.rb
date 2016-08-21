@@ -32,7 +32,7 @@ module Hauler
       end
 
       def add_node_modules_to_gitignore
-        has_gitignore = File.exist?(Rails.root.join('package.json'))
+        has_gitignore = File.exist?(Rails.root.join('.gitignore'))
         return if !has_gitignore
 
         has_node_modules = IO.read('.gitignore').include? 'node_modules'
