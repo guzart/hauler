@@ -73,26 +73,31 @@ function getConstructor(className) {
 // Within `searchSelector`, find nodes which should have React components
 // inside them, and mount them with their props.
 export function mountComponents(searchSelector) {
-  var nodes = findDOMNodes(searchSelector);
+  if (!document) {
+    return;
+  }
 
-  for (var i = 0; i < nodes.length; ++i) {
-    var node = nodes[i];
-    var className = node.getAttribute(CLASS_NAME_ATTR);
-    var constructor = getConstructor(className);
-    var propsJson = node.getAttribute(PROPS_ATTR);
-    var props = propsJson && JSON.parse(propsJson);
+  const nodes = findDOMNodes(searchSelector);
+
+  nodes.forEach(node => {
+    const className = node.getAttribute(CLASS_NAME_ATTR);
+    const constructor = getConstructor(className);
+    const propsJson = node.getAttribute(PROPS_ATTR);
+    const props = propsJson && JSON.parse(propsJson);
 
     if (typeof(constructor) === "undefined") {
       var message = "Cannot find component: '" + className + "'"
+      /* eslint-disable no-console  */
       if (console && console.log) {
         console.log("%c[react-rails] %c" + message + " for element", "font-weight: bold", "", node)
       }
+      /* eslint-enable no-console */
       var error = new Error(message + ". Make sure your component is globally available to render.")
       throw error
     } else {
       ReactDOM.render(React.createElement(constructor, props), node);
     }
-  }
+  });
 }
 
 // Within `searchSelector`, find nodes which have React components
