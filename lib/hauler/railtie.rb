@@ -7,6 +7,8 @@ require 'active_support/core_ext/hash/indifferent_access'
 module Hauler
   # :nodoc:
   class Railtie < Rails::Railtie
+    config.react.camelize_props = true
+
     config.hauler = ActiveSupport::OrderedOptions.new
     config.hauler.dev_server = false
 
