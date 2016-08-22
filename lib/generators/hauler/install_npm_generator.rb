@@ -39,6 +39,7 @@ module Hauler
         react@15.3.0
         react-dom@15.3.0
         react-helmet@3.1.0
+        react-immutable-proptypes@2.1.0
         react-intl@2.1.3
         react-redux@4.4.5
         react-router@2.6.1
