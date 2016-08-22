@@ -8,7 +8,11 @@ function getHotEntryPoint(publicPath: string): string {
 
 export function makeHotReloadableEntries(entries: WebpackEntry, publicPath: string): WebpackEntry {
   if (typeof entries === 'string') {
-    return [getHotEntryPoint(publicPath), entries];
+    return [
+      getHotEntryPoint(publicPath),
+      'webpack/hot/only-dev-server',
+      entries,
+    ];
   }
 
   if (Array.isArray(entries)) {
