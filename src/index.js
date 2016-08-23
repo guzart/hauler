@@ -2,7 +2,9 @@
 
 import fs from 'fs';
 import path from 'path';
+
 import * as utils from './utils';
+import projectDefaultsFactory from './defaults/project_config_factory';
 
 function getProjectConfig(env: string): ProjectConfig {
   const projectConfigFactory = require(utils.railsPath('~config/hauler.js'));
@@ -10,8 +12,7 @@ function getProjectConfig(env: string): ProjectConfig {
 }
 
 function getProjectDefaults(env: string): ProjectConfig {
-  const projectDefaultsFactory = require('./defaults/project_config_factory');
-  return projectDefaultsFactory.default(env);
+  return projectDefaultsFactory(env);
 }
 
 function getConfigFactory(): ProjectConfigFactory {
