@@ -6,6 +6,23 @@ import * as webpack from 'webpack';
 import devServerConfigFactory from './dev_server_config_factory';
 import compilerConfigFactory from './compiler_config_factory';
 
+function formatLoaderQuery(query: Object): string {
+  const keys = Object.keys(query);
+  return keys.reduce((output, key) => {
+    let value = query[key];
+    let propName = key;
+    let segment = `${propName}=${value}`;
+    if (Array.isArray(value)) {
+      propName = `${propName}[]`;
+      segment = value.reduce((arrayOutput, item) => {
+        return `${arrayOutput}&${propName}=${item}`;
+      }, '').replace(/^&+/, '');
+    }
+
+    return `${output}&${segment}`;
+  }, '').replace(/^&+/, '');
+}
+
 function getPlugins(env: string) {
   let plugins = [
     new webpack.ProvidePlugin({ fetch: 'exports?self.fetch!whatwg-fetch' }),
@@ -39,7 +56,7 @@ function configFactory(env: string) {
   const entries = {};
 
   // individual loaders so that they can be replaced separately
-  const javascriptLoader = {
+  const javascriptLoader: WebpackLoader = {
     test: /\.jsx?$/,
     loader: 'babel',
     exclude: /node_modules/,
@@ -73,18 +90,30 @@ function configFactory(env: string) {
   };
 
   if (env === 'production') {
-    javascriptLoader.query.plugins = javascriptLoader.query.plugins.concat([
-      'transform-react-remove-prop-types',
-      'transform-react-constant-elements',
-      'transform-react-inline-elements',
-    ]);
+    if (javascriptLoader.query != null) {
+      const jsPlugins = javascriptLoader.query.plugins || [];
+      Object.assign(javascriptLoader.query, {
+        plugins: jsPlugins.concat([
+          'transform-react-remove-prop-types',
+          'transform-react-constant-elements',
+          'transform-react-inline-elements',
+        ]),
+      });
+    }
 
     sassLoader.loader = ExtractTextPlugin.extract(
       'style',
       sassLoader.loader.replace('style!', '')
     );
-  } else {
-    javascriptLoader.query.presets = javascriptLoader.query.presets.concat(['react-hmre']);
+  }
+
+  if (env === 'development') {
+    if (javascriptLoader.query != null && javascriptLoader.loader != null) {
+      const jsLoaders = [`${javascriptLoader.loader}?${formatLoaderQuery(javascriptLoader.query)}`];
+      javascriptLoader.loaders = ['react-hot'].concat(jsLoaders);
+      delete javascriptLoader.loader;
+      delete javascriptLoader.query;
+    }
   }
 
   const appendPlugins = [];

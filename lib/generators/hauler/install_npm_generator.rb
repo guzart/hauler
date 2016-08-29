@@ -11,7 +11,6 @@ module Hauler
         babel-polyfill@6.13.0
         babel-plugin-transform-class-properties@6.11.5
         babel-preset-es2015@6.13.2
-        babel-preset-react-hmre
         babel-preset-stage-2@6.13.0
         css-loader@0.23.1
         extract-text-webpack-plugin@2.0.0-beta.3
@@ -20,6 +19,7 @@ module Hauler
         image-webpack-loader@2.0.0
         immutable-devtools@0.0.7
         json-loader@0.5.4
+        react-hot-loader@1.3.0
         style-loader@0.13.1
         url-loader@0.5.7
         webpack@2.1.0-beta.20

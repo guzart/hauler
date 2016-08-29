@@ -6,7 +6,7 @@ export default function defaultConfigFactory() {
     noInfo: false,
     host: 'localhost',
     port: 3001,
-    hot: true,
+    hotOnly: true,
     headers: { 'AccessControl-Allow-Origin': '*' },
     stats: {
       colors: true,
