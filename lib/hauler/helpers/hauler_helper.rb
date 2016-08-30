@@ -70,6 +70,11 @@ module Hauler
             orig_stylesheet_link_tag(source, options)
           end.compact.join("\n").html_safe
         end
+
+        def react_factory(component_class_name, props = {}, html_options = {})
+          html_options[:'data-react-factory'] = 'true'
+          react_component(component_class_name, props, html_options)
+        end
       end
     end
   end

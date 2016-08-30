@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 const $ = (typeof global.jQuery !== 'undefined') && global.jQuery;
 const document = global.document;
 
+const FACTORY_ATTR = 'data-react-factory';
+
 // This attribute holds the name of component which should be mounted
 // example: `data-react-class="MyApp.Items.EditForm"`
 const CLASS_NAME_ATTR = 'data-react-class';
@@ -80,6 +82,7 @@ export function mountComponents(searchSelector) {
   const nodes = findDOMNodes(searchSelector);
 
   nodes.forEach(node => {
+    const isFactory = node.getAttribute(FACTORY_ATTR);
     const className = node.getAttribute(CLASS_NAME_ATTR);
     const constructor = getConstructor(className);
     const propsJson = node.getAttribute(PROPS_ATTR);
@@ -95,7 +98,8 @@ export function mountComponents(searchSelector) {
       var error = new Error(message + ". Make sure your component is globally available to render.")
       throw error
     } else {
-      ReactDOM.render(React.createElement(constructor, props), node);
+      const Component = isFactory ? constructor(props) : constructor;
+      ReactDOM.render(React.createElement(Component, props), node);
     }
   });
 }
