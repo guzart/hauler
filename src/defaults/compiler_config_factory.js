@@ -14,7 +14,7 @@ export default function defaultConfigFactory(env: string): WebpackConfig {
       ],
       extensions: ['.js', '.json', '.jsx']
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval',
     target: 'web',
   };
 
