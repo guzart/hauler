@@ -62,7 +62,7 @@ function configFactory(env: string) {
     exclude: /node_modules/,
     query: {
       presets: ['es2015', 'react', 'stage-2'],
-      plugins: ['transform-class-properties'],
+      plugins: ['transform-async-to-generator', 'transform-class-properties'],
     },
   };
 
