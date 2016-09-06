@@ -31,3 +31,21 @@ export function makeHotReloadableEntries(entries: WebpackEntry, publicPath: stri
 
   return entries;
 }
+
+
+export function formatLoaderQuery(query: Object): string {
+  const keys = Object.keys(query);
+  return keys.reduce((output, key) => {
+    let value = query[key];
+    let propName = key;
+    let segment = `${propName}=${value}`;
+    if (Array.isArray(value)) {
+      propName = `${propName}[]`;
+      segment = value.reduce((arrayOutput, item) => {
+        return `${arrayOutput}&${propName}=${item}`;
+      }, '').replace(/^&+/, '');
+    }
+
+    return `${output}&${segment}`;
+  }, '').replace(/^&+/, '');
+}

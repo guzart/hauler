@@ -9,8 +9,8 @@ module Hauler
         babel-core@6.13.2
         babel-loader@6.2.4
         babel-polyfill@6.13.0
-        babel-plugin-transform-async-to-generator@6.8.0
         babel-plugin-transform-class-properties@6.11.5
+        babel-plugin-transform-regenerator@6.14.0
         babel-preset-es2015@6.13.2
         babel-preset-stage-2@6.13.0
         css-loader@0.25.0

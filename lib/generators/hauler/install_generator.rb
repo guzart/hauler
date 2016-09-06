@@ -18,6 +18,10 @@ module Hauler
         template 'app/assets/index.js' if !has_file
       end
 
+      def copy_babelrc
+        template 'babelrc.json', '.babelrc'
+      end
+
       def copy_eslintrc
         template 'eslintrc.json', '.eslintrc.json'
       end
