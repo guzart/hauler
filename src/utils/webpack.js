@@ -16,7 +16,10 @@ export function makeHotReloadableEntries(entries: WebpackEntry, publicPath: stri
   }
 
   if (Array.isArray(entries)) {
-    return [getHotEntryPoint(publicPath)].concat(entries);
+    return [
+      getHotEntryPoint(publicPath),
+      'webpack/hot/only-dev-server',
+    ].concat(entries);
   }
 
   if (entries.constructor === Object) {
