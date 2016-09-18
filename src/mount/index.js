@@ -72,6 +72,10 @@ function getConstructor(className) {
   return constructor;
 }
 
+function render({ Component, props, node }) {
+  ReactDOM.render(React.createElement(Component, props), node);
+}
+
 // Within `searchSelector`, find nodes which should have React components
 // inside them, and mount them with their props.
 export function mountComponents(searchSelector) {
@@ -81,7 +85,7 @@ export function mountComponents(searchSelector) {
 
   const nodes = findDOMNodes(searchSelector);
 
-  nodes.forEach(node => {
+  Array.prototype.forEach.call(nodes, node => {
     const isFactory = node.getAttribute(FACTORY_ATTR);
     const className = node.getAttribute(CLASS_NAME_ATTR);
     const constructor = getConstructor(className);
@@ -98,8 +102,18 @@ export function mountComponents(searchSelector) {
       var error = new Error(message + ". Make sure your component is globally available to render.")
       throw error
     } else {
-      const Component = isFactory ? constructor(props) : constructor;
-      ReactDOM.render(React.createElement(Component, props), node);
+      if (!isFactory) {
+        render({ Component: constructor, props, node });
+        return;
+      }
+
+      const result = constructor(props);
+      if (result.then) {
+        result.then(Component => render({ Component, props, node }))
+        return;
+      }
+
+      render({ Component: result, props, node });
     }
   });
 }
